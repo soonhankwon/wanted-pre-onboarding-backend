@@ -2,15 +2,15 @@ package dev.wantedpreonboardingbackend.recruitment.domain;
 
 import dev.wantedpreonboardingbackend.company.domain.Company;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentRegisterRequest;
-import dev.wantedpreonboardingbackend.tech.domain.Tech;
+import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentUpdateRequest;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @NoArgsConstructor
 @Entity
+@Table(name = "recruitment", indexes = {
+        @Index(name = "fk_company_idx", columnList = "company_id")
+})
 public class Recruitment {
 
     @Id
@@ -27,14 +27,20 @@ public class Recruitment {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL)
-    private Set<Tech> requiredTechs = new HashSet<>();
+    private String requiredTech;
 
     public Recruitment(RecruitmentRegisterRequest dto, Company company) {
         this.position = dto.position();
         this.compensation = dto.compensation();
         this.description = dto.description();
         this.company = company;
-        this.requiredTechs.add(new Tech(dto.tech()));
+        this.requiredTech = dto.tech();
+    }
+
+    public void update(RecruitmentUpdateRequest dto) {
+        this.position = dto.position();
+        this.compensation = dto.compensation();
+        this.description = dto.description();
+        this.requiredTech = dto.tech();
     }
 }
