@@ -1,10 +1,14 @@
 package dev.wantedpreonboardingbackend.company.domain;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
+@Getter
 public class Company {
 
     @Id
@@ -15,4 +19,9 @@ public class Company {
 
     @Embedded
     private LocationInfo locationInfo;
+
+    public Company(String name, LocationInfo locationInfo) {
+        this.name = name;
+        this.locationInfo = locationInfo;
+    }
 }
