@@ -4,6 +4,7 @@ import dev.wantedpreonboardingbackend.company.domain.Company;
 import dev.wantedpreonboardingbackend.company.repository.CompanyRepository;
 import dev.wantedpreonboardingbackend.exception.ApiException;
 import dev.wantedpreonboardingbackend.exception.CustomErrorCode;
+import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentGetResponse;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentRegisterRequest;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentUpdateRequest;
 import dev.wantedpreonboardingbackend.recruitment.domain.Recruitment;
@@ -11,6 +12,9 @@ import dev.wantedpreonboardingbackend.recruitment.repository.RecruitmentReposito
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -47,5 +51,13 @@ public class RegularRecruitmentService implements RecruitmentService {
         Recruitment recruitment = recruitmentRepository.findByIdAndCompany(recruitmentId, company)
                 .orElseThrow(() -> new ApiException(CustomErrorCode.RECRUITMENT_NOT_MATCHES_COMPANY_ID));
         recruitmentRepository.delete(recruitment);
+    }
+
+    @Override
+    public List<RecruitmentGetResponse> getAllRecruitments() {
+        return recruitmentRepository.findAll()
+                .stream()
+                .map(Recruitment::ofResponse)
+                .collect(Collectors.toList());
     }
 }
