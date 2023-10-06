@@ -15,4 +15,6 @@ public interface RecruitmentService {
     void deleteRecruitment(Long recruitmentId, Long companyId);
 
     List<RecruitmentGetResponse> getAllRecruitments();
+
+    List<RecruitmentGetResponse> searchRecruitments(String word);
 }
