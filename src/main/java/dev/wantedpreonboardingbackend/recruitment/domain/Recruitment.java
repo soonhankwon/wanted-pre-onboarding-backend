@@ -1,6 +1,7 @@
 package dev.wantedpreonboardingbackend.recruitment.domain;
 
 import dev.wantedpreonboardingbackend.company.domain.Company;
+import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentGetResponse;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentRegisterRequest;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentUpdateRequest;
 import jakarta.persistence.*;
@@ -42,5 +43,16 @@ public class Recruitment {
         this.compensation = dto.compensation();
         this.description = dto.description();
         this.requiredTech = dto.tech();
+    }
+
+    public RecruitmentGetResponse ofResponse() {
+        return new RecruitmentGetResponse(
+                this.id,
+                this.company.getName(),
+                this.company.getLocationInfo().getNation(),
+                this.company.getLocationInfo().getArea(),
+                this.position,
+                this.compensation,
+                this.requiredTech);
     }
 }
