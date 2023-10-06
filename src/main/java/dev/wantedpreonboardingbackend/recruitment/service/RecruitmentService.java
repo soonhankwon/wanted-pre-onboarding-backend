@@ -7,4 +7,6 @@ public interface RecruitmentService {
 
     void registerRecruitment(Long companyId, RecruitmentRegisterRequest dto);
     void updateRecruitment(Long recruitmentId, Long companyId, RecruitmentUpdateRequest dto);
+
+    void deleteRecruitment(Long recruitmentId, Long companyId);
 }
