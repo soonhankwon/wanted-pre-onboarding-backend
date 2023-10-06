@@ -1,6 +1,6 @@
 package dev.wantedpreonboardingbackend.tech.domain;
 
-import dev.wantedpreonboardingbackend.recruitment_notice.domain.RecruitmentNotice;
+import dev.wantedpreonboardingbackend.recruitment.domain.Recruitment;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +15,10 @@ public class Tech {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "recruitment_notice_id")
-    private RecruitmentNotice recruitmentNotice;
+    @JoinColumn(name = "recruitment_id")
+    private Recruitment recruitment;
+
+    public Tech(String name) {
+        this.name = name;
+    }
 }
