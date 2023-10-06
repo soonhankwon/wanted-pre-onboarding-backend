@@ -46,4 +46,10 @@ public class RecruitmentController {
         List<RecruitmentGetResponse> allRecruitments = regularRecruitmentService.getAllRecruitments();
         return ResponseEntity.ok().body(allRecruitments);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchRecruitments(@RequestParam String word) {
+        List<RecruitmentGetResponse> searchRecruitments = regularRecruitmentService.searchRecruitments(word);
+        return ResponseEntity.ok().body(searchRecruitments);
+    }
 }
