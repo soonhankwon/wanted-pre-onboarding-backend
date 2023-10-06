@@ -1,12 +1,12 @@
 package dev.wantedpreonboardingbackend.user.domain;
 
-import dev.wantedpreonboardingbackend.recruitment_notice.domain.RecruitmentNotice;
+import dev.wantedpreonboardingbackend.recruitment.domain.Recruitment;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Entity
-public class UserRecruitmentNotice {
+public class UserRecruitment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +17,8 @@ public class UserRecruitmentNotice {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "recruitment_notice_id")
-    private RecruitmentNotice recruitmentNotice;
+    @JoinColumn(name = "recruitment_id")
+    private Recruitment recruitment;
 
     private String status;
 }
