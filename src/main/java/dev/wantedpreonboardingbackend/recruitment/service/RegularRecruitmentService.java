@@ -60,4 +60,12 @@ public class RegularRecruitmentService implements RecruitmentService {
                 .map(Recruitment::ofResponse)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<RecruitmentGetResponse> searchRecruitments(String word) {
+        return recruitmentRepository.findAll(RequirementSpecifications.searchByKeyword(word))
+                .stream()
+                .map(Recruitment::ofResponse)
+                .collect(Collectors.toList());
+    }
 }
