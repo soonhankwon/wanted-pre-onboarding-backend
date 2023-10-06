@@ -38,4 +38,14 @@ public class RegularRecruitmentService implements RecruitmentService {
 
         recruitment.update(dto);
     }
+
+    @Override
+    @Transactional
+    public void deleteRecruitment(Long recruitmentId, Long companyId) {
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(() -> new ApiException(CustomErrorCode.COMPANY_NOT_FOUND_INVALID_ID));
+        Recruitment recruitment = recruitmentRepository.findByIdAndCompany(recruitmentId, company)
+                .orElseThrow(() -> new ApiException(CustomErrorCode.RECRUITMENT_NOT_MATCHES_COMPANY_ID));
+        recruitmentRepository.delete(recruitment);
+    }
 }
