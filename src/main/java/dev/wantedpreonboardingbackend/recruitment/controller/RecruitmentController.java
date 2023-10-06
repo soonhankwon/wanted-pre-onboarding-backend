@@ -30,4 +30,11 @@ public class RecruitmentController {
         regularRecruitmentService.updateRecruitment(recruitmentId, companyId, dto);
         return ResponseEntity.ok().body("채용공고 수정완료");
     }
+
+    @DeleteMapping("/{recruitmentId}/{companyId}")
+    public ResponseEntity<?> deleteRecruitment(@PathVariable Long recruitmentId,
+                                               @PathVariable Long companyId) {
+        regularRecruitmentService.deleteRecruitment(recruitmentId, companyId);
+        return ResponseEntity.ok().body("채용공고 삭제완료");
+    }
 }
