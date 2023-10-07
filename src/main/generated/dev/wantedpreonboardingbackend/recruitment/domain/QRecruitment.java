@@ -52,7 +52,7 @@ public class QRecruitment extends EntityPathBase<Recruitment> {
 
     public QRecruitment(Class<? extends Recruitment> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.company = inits.isInitialized("company") ? new dev.wantedpreonboardingbackend.company.domain.QCompany(forProperty("company"), inits.get("company")) : null;
+        this.company = inits.isInitialized("company") ? new dev.wantedpreonboardingbackend.company.domain.QCompany(forProperty("company")) : null;
     }
 
 }
