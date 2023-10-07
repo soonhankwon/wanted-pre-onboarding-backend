@@ -48,8 +48,8 @@ public class RecruitmentController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchRecruitments(@RequestParam String word) {
-        List<RecruitmentGetResponse> searchRecruitments = regularRecruitmentService.searchRecruitments(word);
+    public ResponseEntity<?> searchRecruitments(@RequestParam String keyword) {
+        List<RecruitmentGetResponse> searchRecruitments = regularRecruitmentService.searchRecruitments(keyword);
         return ResponseEntity.ok().body(searchRecruitments);
     }
 }
