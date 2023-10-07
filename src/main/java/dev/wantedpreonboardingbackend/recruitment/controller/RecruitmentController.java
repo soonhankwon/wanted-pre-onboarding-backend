@@ -2,6 +2,8 @@ package dev.wantedpreonboardingbackend.recruitment.controller;
 
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.*;
 import dev.wantedpreonboardingbackend.recruitment.service.RecruitmentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +15,13 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/recruitments")
+@Tag(name = "채용공고 관련 API")
 public class RecruitmentController {
 
     private final RecruitmentService regularRecruitmentService;
 
     @PostMapping("/{companyId}")
+    @Operation(summary = "채용공고 등록 API")
     public ResponseEntity<?> registerRecruitment(@PathVariable Long companyId,
                                                  @RequestBody RecruitmentRegisterRequest dto) {
         regularRecruitmentService.registerRecruitment(companyId, dto);
@@ -25,6 +29,7 @@ public class RecruitmentController {
     }
 
     @PatchMapping("/{recruitmentId}/{companyId}")
+    @Operation(summary = "채용공고 수정 API")
     public ResponseEntity<?> updateRecruitment(@PathVariable Long recruitmentId,
                                                @PathVariable Long companyId,
                                                @RequestBody RecruitmentUpdateRequest dto) {
@@ -33,6 +38,7 @@ public class RecruitmentController {
     }
 
     @DeleteMapping("/{recruitmentId}/{companyId}")
+    @Operation(summary = "채용공고 삭제 API")
     public ResponseEntity<?> deleteRecruitment(@PathVariable Long recruitmentId,
                                                @PathVariable Long companyId) {
         regularRecruitmentService.deleteRecruitment(recruitmentId, companyId);
@@ -40,24 +46,28 @@ public class RecruitmentController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getRecruitments() {
+    @Operation(summary = "채용공고 목록 조회 API")
+    public ResponseEntity<List<RecruitmentGetResponse>> getRecruitments() {
         List<RecruitmentGetResponse> allRecruitments = regularRecruitmentService.getAllRecruitments();
         return ResponseEntity.ok().body(allRecruitments);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchRecruitments(@RequestParam String keyword) {
+    @Operation(summary = "채용공고 키워드 검색 API")
+    public ResponseEntity<List<RecruitmentGetResponse>> searchRecruitments(@RequestParam String keyword) {
         List<RecruitmentGetResponse> searchRecruitments = regularRecruitmentService.searchRecruitments(keyword);
         return ResponseEntity.ok().body(searchRecruitments);
     }
 
     @GetMapping("/{recruitmentId}")
-    public ResponseEntity<?> getRecruitmentDetail(@PathVariable Long recruitmentId) {
+    @Operation(summary = "채용공고 상세페이지 조회 API")
+    public ResponseEntity<RecruitmentDetailGetResponse> getRecruitmentDetail(@PathVariable Long recruitmentId) {
         RecruitmentDetailGetResponse detailResponse = regularRecruitmentService.getRecruitmentDetail(recruitmentId);
         return ResponseEntity.ok().body(detailResponse);
     }
 
     @PostMapping("/{recruitmentId}/apply")
+    @Operation(summary = "채용공고 지원 API")
     public ResponseEntity<?> applyRecruitment(@PathVariable Long recruitmentId,
                                               @RequestBody RecruitmentApplyRequest dto) {
         regularRecruitmentService.applyRecruitment(recruitmentId, dto);
