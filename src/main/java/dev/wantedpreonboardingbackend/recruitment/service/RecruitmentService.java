@@ -1,5 +1,6 @@
 package dev.wantedpreonboardingbackend.recruitment.service;
 
+import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentDetailGetResponse;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentGetResponse;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentRegisterRequest;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentUpdateRequest;
@@ -17,4 +18,6 @@ public interface RecruitmentService {
     List<RecruitmentGetResponse> getAllRecruitments();
 
     List<RecruitmentGetResponse> searchRecruitments(String keyword);
+
+    RecruitmentDetailGetResponse getRecruitmentDetail(Long recruitmentId);
 }
