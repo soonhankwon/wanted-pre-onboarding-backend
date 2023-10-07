@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface RecruitmentRepositoryCustom {
     List<Recruitment> findRecruitmentsByKeyword(String keyword);
+    List<Long> findRelatedRecruitmentsIdsByCompany(Recruitment recruitment);
 }
