@@ -1,11 +1,14 @@
 package dev.wantedpreonboardingbackend.recruitment.domain;
 
 import dev.wantedpreonboardingbackend.company.domain.Company;
+import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentDetailGetResponse;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentGetResponse;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentRegisterRequest;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentUpdateRequest;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @NoArgsConstructor
 @Entity
@@ -38,6 +41,14 @@ public class Recruitment {
         this.requiredTech = dto.tech();
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public Company getCompany() {
+        return this.company;
+    }
+
     public void update(RecruitmentUpdateRequest dto) {
         this.position = dto.position();
         this.compensation = dto.compensation();
@@ -54,5 +65,18 @@ public class Recruitment {
                 this.position,
                 this.compensation,
                 this.requiredTech);
+    }
+
+    public RecruitmentDetailGetResponse ofDetailResponse(List<Long> ids) {
+        return new RecruitmentDetailGetResponse(
+                this.id,
+                this.company.getName(),
+                this.company.getLocationInfo().getNation(),
+                this.company.getLocationInfo().getArea(),
+                this.position,
+                this.compensation,
+                this.requiredTech,
+                this.description,
+                ids);
     }
 }
