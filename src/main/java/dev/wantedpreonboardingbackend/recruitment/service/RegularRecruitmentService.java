@@ -4,12 +4,14 @@ import dev.wantedpreonboardingbackend.company.domain.Company;
 import dev.wantedpreonboardingbackend.company.repository.CompanyRepository;
 import dev.wantedpreonboardingbackend.exception.ApiException;
 import dev.wantedpreonboardingbackend.exception.CustomErrorCode;
-import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentDetailGetResponse;
-import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentGetResponse;
-import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentRegisterRequest;
-import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentUpdateRequest;
+import dev.wantedpreonboardingbackend.recruitment.controller.dto.*;
 import dev.wantedpreonboardingbackend.recruitment.domain.Recruitment;
 import dev.wantedpreonboardingbackend.recruitment.repository.RecruitmentRepository;
+import dev.wantedpreonboardingbackend.user.domain.User;
+import dev.wantedpreonboardingbackend.user.repository.UserRepository;
+import dev.wantedpreonboardingbackend.user_recruitment.domain.Status;
+import dev.wantedpreonboardingbackend.user_recruitment.domain.UserRecruitment;
+import dev.wantedpreonboardingbackend.user_recruitment.repository.UserRecruitmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,8 @@ public class RegularRecruitmentService implements RecruitmentService {
 
     private final RecruitmentRepository recruitmentRepository;
     private final CompanyRepository companyRepository;
+    private final UserRepository userRepository;
+    private final UserRecruitmentRepository userRecruitmentRepository;
 
     @Override
     @Transactional
@@ -77,5 +81,21 @@ public class RegularRecruitmentService implements RecruitmentService {
 
         List<Long> ids = recruitmentRepository.findRelatedRecruitmentsIdsByCompany(recruitment);
         return recruitment.ofDetailResponse(ids);
+    }
+
+    @Override
+    @Transactional
+    public void applyRecruitment(Long recruitmentId, RecruitmentApplyRequest dto) {
+        User user = userRepository.findUserByEmail(dto.email())
+                .orElseThrow(() -> new ApiException(CustomErrorCode.USER_NOT_FOUND_INVALID_EMAIL));
+
+        Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
+                .orElseThrow(() -> new ApiException(CustomErrorCode.RECRUITMENT_NOT_FOUND_INVALID_ID));
+
+        if(userRecruitmentRepository.existsByUserAndRecruitmentAndStatusEquals(user, recruitment, Status.COMPLETED_APPLYING)) {
+            throw new ApiException(CustomErrorCode.ALREADY_EXISTS_APPLYING);
+        }
+        UserRecruitment userRecruitment = new UserRecruitment(user, recruitment, Status.COMPLETED_APPLYING);
+        userRecruitmentRepository.save(userRecruitment);
     }
 }
