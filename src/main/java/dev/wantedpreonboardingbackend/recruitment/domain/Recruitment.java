@@ -38,7 +38,7 @@ public class Recruitment {
     private Company company;
 
     @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<UserRecruitment> userRecruitments = new ArrayList<>();
+    protected final List<UserRecruitment> userRecruitments = new ArrayList<>();
 
     private String requiredTech;
 
