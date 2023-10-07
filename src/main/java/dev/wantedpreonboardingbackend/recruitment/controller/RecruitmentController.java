@@ -1,9 +1,6 @@
 package dev.wantedpreonboardingbackend.recruitment.controller;
 
-import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentDetailGetResponse;
-import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentGetResponse;
-import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentRegisterRequest;
-import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentUpdateRequest;
+import dev.wantedpreonboardingbackend.recruitment.controller.dto.*;
 import dev.wantedpreonboardingbackend.recruitment.service.RecruitmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,5 +55,12 @@ public class RecruitmentController {
     public ResponseEntity<?> getRecruitmentDetail(@PathVariable Long recruitmentId) {
         RecruitmentDetailGetResponse detailResponse = regularRecruitmentService.getRecruitmentDetail(recruitmentId);
         return ResponseEntity.ok().body(detailResponse);
+    }
+
+    @PostMapping("/{recruitmentId}/apply")
+    public ResponseEntity<?> applyRecruitment(@PathVariable Long recruitmentId,
+                                              @RequestBody RecruitmentApplyRequest dto) {
+        regularRecruitmentService.applyRecruitment(recruitmentId, dto);
+        return ResponseEntity.ok().body("채용공고 지원완료");
     }
 }
