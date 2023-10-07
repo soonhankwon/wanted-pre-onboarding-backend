@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "recruitment", indexes = {
-        @Index(name = "fk_company_idx", columnList = "company_id")
-})
+        @Index(name = "fk_company_idx", columnList = "company_id"),
+        @Index(name = "idx_position_idx", columnList = "position")})
 public class Recruitment {
 
     @Id
