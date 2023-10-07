@@ -26,7 +26,6 @@ public class RegularRecruitmentService implements RecruitmentService {
     private final RecruitmentRepository recruitmentRepository;
     private final CompanyRepository companyRepository;
     private final UserRepository userRepository;
-    private final UserRecruitmentRepository userRecruitmentRepository;
 
     @Override
     @Transactional
@@ -92,10 +91,7 @@ public class RegularRecruitmentService implements RecruitmentService {
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
                 .orElseThrow(() -> new ApiException(CustomErrorCode.RECRUITMENT_NOT_FOUND_INVALID_ID));
 
-        if(userRecruitmentRepository.existsByUserAndRecruitmentAndStatusEquals(user, recruitment, Status.COMPLETED_APPLYING)) {
-            throw new ApiException(CustomErrorCode.ALREADY_EXISTS_APPLYING);
-        }
         UserRecruitment userRecruitment = new UserRecruitment(user, recruitment, Status.COMPLETED_APPLYING);
-        userRecruitmentRepository.save(userRecruitment);
+        recruitment.apply(userRecruitment);
     }
 }
