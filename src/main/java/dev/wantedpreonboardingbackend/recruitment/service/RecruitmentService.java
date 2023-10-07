@@ -1,9 +1,6 @@
 package dev.wantedpreonboardingbackend.recruitment.service;
 
-import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentDetailGetResponse;
-import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentGetResponse;
-import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentRegisterRequest;
-import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentUpdateRequest;
+import dev.wantedpreonboardingbackend.recruitment.controller.dto.*;
 
 import java.util.List;
 
@@ -20,4 +17,6 @@ public interface RecruitmentService {
     List<RecruitmentGetResponse> searchRecruitments(String keyword);
 
     RecruitmentDetailGetResponse getRecruitmentDetail(Long recruitmentId);
+
+    void applyRecruitment(Long recruitmentId, RecruitmentApplyRequest dto);
 }
