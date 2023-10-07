@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 @Entity
 @Getter
+@Table(name = "company", indexes = {
+        @Index(name = "idx_name_idx", columnList = "name")})
 public class Company {
 
     @Id
