@@ -1,6 +1,7 @@
 package dev.wantedpreonboardingbackend.recruitment.service;
 
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.*;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface RecruitmentService {
 
     void deleteRecruitment(Long recruitmentId, Long companyId);
 
-    List<RecruitmentGetResponse> getAllRecruitments();
+    List<RecruitmentGetResponse> getAllRecruitments(Pageable pageable);
 
     List<RecruitmentGetResponse> searchRecruitments(String keyword);
 

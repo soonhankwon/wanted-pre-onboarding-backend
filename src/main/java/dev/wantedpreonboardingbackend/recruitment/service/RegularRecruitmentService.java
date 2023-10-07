@@ -11,8 +11,9 @@ import dev.wantedpreonboardingbackend.user.domain.User;
 import dev.wantedpreonboardingbackend.user.repository.UserRepository;
 import dev.wantedpreonboardingbackend.user_recruitment.domain.Status;
 import dev.wantedpreonboardingbackend.user_recruitment.domain.UserRecruitment;
-import dev.wantedpreonboardingbackend.user_recruitment.repository.UserRecruitmentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,9 +59,9 @@ public class RegularRecruitmentService implements RecruitmentService {
     }
 
     @Override
-    public List<RecruitmentGetResponse> getAllRecruitments() {
-        return recruitmentRepository.findAll()
-                .stream()
+    public List<RecruitmentGetResponse> getAllRecruitments(Pageable pageable) {
+        Page<Recruitment> recruitmentPage = recruitmentRepository.findAll(pageable);
+        return recruitmentPage.stream()
                 .map(Recruitment::ofResponse)
                 .collect(Collectors.toList());
     }
