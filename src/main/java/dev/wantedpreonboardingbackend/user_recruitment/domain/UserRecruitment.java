@@ -5,6 +5,8 @@ import dev.wantedpreonboardingbackend.user.domain.User;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @NoArgsConstructor
 @Entity
 @Table(name = "user_recruitment", indexes = {
@@ -33,5 +35,18 @@ public class UserRecruitment {
         this.user = user;
         this.recruitment = recruitment;
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserRecruitment that = (UserRecruitment) o;
+        return Objects.equals(user, that.user) && Objects.equals(recruitment, that.recruitment) && status == that.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user, recruitment, status);
     }
 }
