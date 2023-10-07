@@ -1,5 +1,6 @@
 package dev.wantedpreonboardingbackend.recruitment.controller;
 
+import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentDetailGetResponse;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentGetResponse;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentRegisterRequest;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentUpdateRequest;
@@ -51,5 +52,11 @@ public class RecruitmentController {
     public ResponseEntity<?> searchRecruitments(@RequestParam String keyword) {
         List<RecruitmentGetResponse> searchRecruitments = regularRecruitmentService.searchRecruitments(keyword);
         return ResponseEntity.ok().body(searchRecruitments);
+    }
+
+    @GetMapping("/{recruitmentId}")
+    public ResponseEntity<?> getRecruitmentDetail(@PathVariable Long recruitmentId) {
+        RecruitmentDetailGetResponse detailResponse = regularRecruitmentService.getRecruitmentDetail(recruitmentId);
+        return ResponseEntity.ok().body(detailResponse);
     }
 }
