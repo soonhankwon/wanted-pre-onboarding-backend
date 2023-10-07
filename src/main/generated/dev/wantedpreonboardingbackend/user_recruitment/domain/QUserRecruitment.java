@@ -1,4 +1,4 @@
-package dev.wantedpreonboardingbackend.user.domain;
+package dev.wantedpreonboardingbackend.user_recruitment.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QUserRecruitment extends EntityPathBase<UserRecruitment> {
 
-    private static final long serialVersionUID = -766206566L;
+    private static final long serialVersionUID = 1660025245L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -26,9 +26,9 @@ public class QUserRecruitment extends EntityPathBase<UserRecruitment> {
 
     public final dev.wantedpreonboardingbackend.recruitment.domain.QRecruitment recruitment;
 
-    public final StringPath status = createString("status");
+    public final EnumPath<Status> status = createEnum("status", Status.class);
 
-    public final QUser user;
+    public final dev.wantedpreonboardingbackend.user.domain.QUser user;
 
     public QUserRecruitment(String variable) {
         this(UserRecruitment.class, forVariable(variable), INITS);
@@ -49,7 +49,7 @@ public class QUserRecruitment extends EntityPathBase<UserRecruitment> {
     public QUserRecruitment(Class<? extends UserRecruitment> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.recruitment = inits.isInitialized("recruitment") ? new dev.wantedpreonboardingbackend.recruitment.domain.QRecruitment(forProperty("recruitment"), inits.get("recruitment")) : null;
-        this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
+        this.user = inits.isInitialized("user") ? new dev.wantedpreonboardingbackend.user.domain.QUser(forProperty("user")) : null;
     }
 
 }
