@@ -28,4 +28,15 @@ public class RecruitmentRepositoryCustomImpl implements RecruitmentRepositoryCus
                         .or(company.name.contains(keyword)))
                 .fetch();
     }
+
+    @Override
+    public List<Long> findRelatedRecruitmentsIdsByCompany(Recruitment recruitmentNotice) {
+        return queryFactory.select(recruitment.id)
+                .from(recruitment)
+                .join(company).on(recruitment.company.eq(company))
+                .where(
+                        recruitment.company.eq(recruitmentNotice.getCompany())
+                                .and(recruitment.id.ne(recruitmentNotice.getId())))
+                .fetch();
+    }
 }
