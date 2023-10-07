@@ -1,17 +1,23 @@
 package dev.wantedpreonboardingbackend.recruitment.domain;
 
 import dev.wantedpreonboardingbackend.company.domain.Company;
+import dev.wantedpreonboardingbackend.exception.ApiException;
+import dev.wantedpreonboardingbackend.exception.CustomErrorCode;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentDetailGetResponse;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentGetResponse;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentRegisterRequest;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentUpdateRequest;
+import dev.wantedpreonboardingbackend.user_recruitment.domain.UserRecruitment;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @Entity
+@EqualsAndHashCode
 @Table(name = "recruitment", indexes = {
         @Index(name = "fk_company_idx", columnList = "company_id"),
         @Index(name = "idx_position_idx", columnList = "position")})
@@ -30,6 +36,9 @@ public class Recruitment {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<UserRecruitment> userRecruitments = new ArrayList<>();
 
     private String requiredTech;
 
@@ -78,5 +87,16 @@ public class Recruitment {
                 this.requiredTech,
                 this.description,
                 ids);
+    }
+
+    public void apply(UserRecruitment userRecruitment) {
+        if(existsByUserRecruitment(userRecruitment)) {
+            throw new ApiException(CustomErrorCode.ALREADY_EXISTS_APPLYING);
+        }
+        userRecruitments.add(userRecruitment);
+    }
+
+    private boolean existsByUserRecruitment(UserRecruitment userRecruitment) {
+        return this.userRecruitments.contains(userRecruitment);
     }
 }
