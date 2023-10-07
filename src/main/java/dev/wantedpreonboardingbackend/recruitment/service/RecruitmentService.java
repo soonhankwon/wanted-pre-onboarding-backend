@@ -16,5 +16,5 @@ public interface RecruitmentService {
 
     List<RecruitmentGetResponse> getAllRecruitments();
 
-    List<RecruitmentGetResponse> searchRecruitments(String word);
+    List<RecruitmentGetResponse> searchRecruitments(String keyword);
 }
