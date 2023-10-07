@@ -9,7 +9,8 @@ import java.util.regex.Pattern;
 @NoArgsConstructor
 @Entity
 @EqualsAndHashCode
-@Table(name = "`user`")
+@Table(name = "`user`", indexes = {
+        @Index(name = "idx_email_idx", columnList = "email")})
 public class User {
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
