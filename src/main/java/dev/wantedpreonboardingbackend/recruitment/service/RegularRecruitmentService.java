@@ -4,6 +4,7 @@ import dev.wantedpreonboardingbackend.company.domain.Company;
 import dev.wantedpreonboardingbackend.company.repository.CompanyRepository;
 import dev.wantedpreonboardingbackend.exception.ApiException;
 import dev.wantedpreonboardingbackend.exception.CustomErrorCode;
+import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentDetailGetResponse;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentGetResponse;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentRegisterRequest;
 import dev.wantedpreonboardingbackend.recruitment.controller.dto.RecruitmentUpdateRequest;
@@ -67,5 +68,14 @@ public class RegularRecruitmentService implements RecruitmentService {
                 .stream()
                 .map(Recruitment::ofResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public RecruitmentDetailGetResponse getRecruitmentDetail(Long recruitmentId) {
+        Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
+                .orElseThrow(() -> new ApiException(CustomErrorCode.RECRUITMENT_NOT_FOUND_INVALID_ID));
+
+        List<Long> ids = recruitmentRepository.findRelatedRecruitmentsIdsByCompany(recruitment);
+        return recruitment.ofDetailResponse(ids);
     }
 }
