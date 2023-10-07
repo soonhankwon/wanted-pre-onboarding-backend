@@ -34,6 +34,8 @@ public class QRecruitment extends EntityPathBase<Recruitment> {
 
     public final StringPath requiredTech = createString("requiredTech");
 
+    public final ListPath<dev.wantedpreonboardingbackend.user_recruitment.domain.UserRecruitment, dev.wantedpreonboardingbackend.user_recruitment.domain.QUserRecruitment> userRecruitments = this.<dev.wantedpreonboardingbackend.user_recruitment.domain.UserRecruitment, dev.wantedpreonboardingbackend.user_recruitment.domain.QUserRecruitment>createList("userRecruitments", dev.wantedpreonboardingbackend.user_recruitment.domain.UserRecruitment.class, dev.wantedpreonboardingbackend.user_recruitment.domain.QUserRecruitment.class, PathInits.DIRECT2);
+
     public QRecruitment(String variable) {
         this(Recruitment.class, forVariable(variable), INITS);
     }
