@@ -39,7 +39,7 @@
 <summary><strong> Diagram </strong></summary>
 <div markdown="1">       
 
-![dev-space-erd](https://github.com/soonhankwon/coffee-plz-backend/assets/113872320/3c8b524e-783d-4b3d-8064-954cc53621c2)
+![wanted-pre-be-erd](https://github.com/soonhankwon/wanted-pre-onboarding-backend/assets/113872320/d226ec24-4d73-4382-a3a3-8c4fc82d6f57)
 
 </div>
 </details>
