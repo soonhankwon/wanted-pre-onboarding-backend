@@ -248,3 +248,44 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
 </details>
 
 ### 채용공고 지원
+- Pathvariable로 recruitmentId를 사용하도록 했습니다.
+- RequestBody에 채용공고 지원요청 DTO(유저 이메일)를 파라미터로 받도록 구현했습니다.
+<details>
+<summary><strong> applyRecruitment - controller</strong></summary>
+<div markdown="1">       
+
+```java
+@PostMapping("/{recruitmentId}/apply")
+    @Operation(summary = "채용공고 지원 API")
+    public ResponseEntity<?> applyRecruitment(@PathVariable Long recruitmentId,
+                                              @RequestBody RecruitmentApplyRequest dto) {
+        regularRecruitmentService.applyRecruitment(recruitmentId, dto);
+        return ResponseEntity.ok().body("채용공고 지원완료");
+    }
+```
+
+</div>
+</details>
+
+- 유저의 채용공고 지원은 UserRecruitment 라믄 User - Recruitment 간 N : N 관계의 중간 테이블로 구현했습니다.
+- Status Enum 클래스를 통해 지원여부 상태를 구분합니다.
+- 이미 지원한 상태라면 지원하지 못하도록 예외처리가 적용되어 있습니다.
+<details>
+<summary><strong> applyRecruitment - controller</strong></summary>
+<div markdown="1">       
+
+```java
+public void apply(UserRecruitment userRecruitment) {
+        if(existsByUserRecruitment(userRecruitment)) {
+            throw new ApiException(CustomErrorCode.ALREADY_EXISTS_APPLYING);
+        }
+        userRecruitments.add(userRecruitment);
+    }
+
+    private boolean existsByUserRecruitment(UserRecruitment userRecruitment) {
+        return this.userRecruitments.contains(userRecruitment);
+    }
+```
+
+</div>
+</details>
