@@ -10,14 +10,12 @@
 
 <!-- About the Project -->
 ## :star2: 프로젝트 소개
----
   
 - 본 서비스는 기업의 채용을 위한 웹 서비스 백엔드 API 입니다.
 
 <!-- Features -->
 ### :dart: 핵심기능
 
----
 - 채용공고 등록
 - 채용공고 수정
 - 채용공고 삭제
@@ -25,11 +23,8 @@
 - 채용공고 키워드 검색
 - 채용상세 페이지 조회
 - 채용공고 지원
----
 
 ### :space_invader: Tech Stack
-
----
 
 - Java 17
 - SpringBoot 3.1.4
@@ -39,11 +34,7 @@
 - Swagger 3.0.0
 - MySQL 8.0.31
 
----
-
 ### :book: DB 테이블 정의서
-
----
 
 ### ERD
 <details>
@@ -57,15 +48,9 @@
 
 ### :computer: API 명세서
 
----
-
 - [Swagger API 명세서](http://localhost:8080/swagger-ui/index.html)
   
     - 프로젝트 **애플리케이션 RUN** 후 링크를 클릭하면 확인 가능합니다.
-
-## API TEST
-
----
 
 ### Swagger UI
 
@@ -82,4 +67,3 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
     - 경계범위값의 예외처리 테스트 코드 또한 작성되어있습니다.
 
 ## 요구사항 분석 및 구현 과정
----
