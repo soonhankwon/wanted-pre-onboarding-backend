@@ -119,6 +119,19 @@ class RecruitmentTest {
     }
 
     @Test
+    @DisplayName("get UserRecruitments 테스트")
+    void getUserRecruitments() {
+        RecruitmentRegisterRequest dto1 = new RecruitmentRegisterRequest("백엔드 주니어 개발자",
+                1_000_000L,
+                "원티드랩에서 백엔드 주니어 개발자를 채용합니다. 자격요건은..",
+                "Python");
+        Company company = new Company("원티드랩", new LocationInfo("한국", "서울"));
+        Recruitment recruitment = new Recruitment(dto1, company);
+
+        assertThat(recruitment.getUserRecruitments().size()).isEqualTo(0);
+    }
+
+    @Test
     @DisplayName("사용자 채용공고 지원 테스트")
     void apply() {
         User user = new User("abc@naver.com");
@@ -134,7 +147,7 @@ class RecruitmentTest {
 
         recruitment.apply(userRecruitment);
 
-        assertThat(recruitment.userRecruitments.contains(userRecruitment)).isTrue();
+        assertThat(recruitment.getUserRecruitments().contains(userRecruitment)).isTrue();
     }
 
     @Test
@@ -150,7 +163,7 @@ class RecruitmentTest {
         Recruitment recruitment = new Recruitment(dto1, company);
 
         UserRecruitment userRecruitment = new UserRecruitment(user, recruitment, Status.COMPLETED_APPLYING);
-        recruitment.userRecruitments.add(userRecruitment);
+        recruitment.getUserRecruitments().add(userRecruitment);
 
         assertThatThrownBy(() -> recruitment.apply(userRecruitment))
                 .isInstanceOf(ApiException.class);
