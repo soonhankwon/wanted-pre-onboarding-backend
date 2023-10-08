@@ -87,13 +87,12 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
 <div markdown="1">       
 
 ```java
-@Override
-    @Transactional
-    public void registerRecruitment(Long companyId, RecruitmentRegisterRequest dto) {
-        Company company = companyRepository.findById(companyId)
-                .orElseThrow(() -> new ApiException(CustomErrorCode.COMPANY_NOT_FOUND_INVALID_ID));
-        Recruitment recruitment = new Recruitment(dto, company);
-        recruitmentRepository.save(recruitment);
+@PostMapping("/{companyId}")
+    @Operation(summary = "채용공고 등록 API")
+    public ResponseEntity<?> registerRecruitment(@PathVariable Long companyId,
+                                                 @RequestBody RecruitmentRegisterRequest dto) {
+        regularRecruitmentService.registerRecruitment(companyId, dto);
+        return ResponseEntity.ok().body("채용공고 등록완료");
     }
 ```
 
@@ -109,19 +108,57 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
   * 해당 부분도 역시 JWT or Session을 사용한다면 companyId는 생략할 수 있는 부분입니다.
 - RequestBody에 채용공고 수정요청 DTO를 파라미터로 받도록 구현했습니다.
 <details>
-<summary><strong> registerRecruitment - Controller</strong></summary>
+<summary><strong> updateRecruitment - Controller</strong></summary>
 <div markdown="1">       
 
 ```java
-@Override
-    @Transactional
-    public void updateRecruitment(Long recruitmentId, Long companyId, RecruitmentUpdateRequest dto) {
-        Company company = companyRepository.findById(companyId)
-                .orElseThrow(() -> new ApiException(CustomErrorCode.COMPANY_NOT_FOUND_INVALID_ID));
-        Recruitment recruitment = recruitmentRepository.findByIdAndCompany(recruitmentId, company)
-                .orElseThrow(() -> new ApiException(CustomErrorCode.RECRUITMENT_NOT_MATCHES_COMPANY_ID));
+@PatchMapping("/{recruitmentId}/{companyId}")
+    @Operation(summary = "채용공고 수정 API")
+    public ResponseEntity<?> updateRecruitment(@PathVariable Long recruitmentId,
+                                               @PathVariable Long companyId,
+                                               @RequestBody RecruitmentUpdateRequest dto) {
+        regularRecruitmentService.updateRecruitment(recruitmentId, companyId, dto);
+        return ResponseEntity.ok().body("채용공고 수정완료");
+    }
+```
 
-        recruitment.update(dto);
+</div>
+</details>
+
+### 채용공고 삭제
+- Pathvariable로 recruitmentId, companyId를 사용하도록 했습니다.
+  * 채용공고를 삭제하려면 해당 회사의 채용공고이어야 때문에 검증이 필요한 부분이 있기 때문입니다.
+<details>
+<summary><strong> deleteRecruitment - Controller</strong></summary>
+<div markdown="1">       
+
+```java
+@DeleteMapping("/{recruitmentId}/{companyId}")
+    @Operation(summary = "채용공고 삭제 API")
+    public ResponseEntity<?> deleteRecruitment(@PathVariable Long recruitmentId,
+                                               @PathVariable Long companyId) {
+        regularRecruitmentService.deleteRecruitment(recruitmentId, companyId);
+        return ResponseEntity.ok().body("채용공고 삭제완료");
+    }
+```
+
+</div>
+</details>
+
+### 채용공고 목록 조회
+- 조회할 데이터량이 많고 이에따른 Latency가 클것으로 예상되는 API이기 때문에 페이지네이션을 적용했습니다.
+- Pageable 을 사용하며 ex)http://localhost:8080/page=0&size=10&sort=id,DESC 식으로 사용하며 size, sort 생략시 size10, sort는 id, DESC 기본값 입니다.
+<details>
+<summary><strong> getRecruitments - Controller</strong></summary>
+<div markdown="1">       
+
+```java
+@GetMapping
+    @Operation(summary = "채용공고 목록 조회 API",
+            description = "ex)/page=0&size=10&sort=id,DESC => page, size 페이지네이션, sort 정렬이 가능, query param size, sort 생략시 기본값 size 10, sort id,DESC")
+    public ResponseEntity<List<RecruitmentGetResponse>> getRecruitments(@Parameter(hidden = true) @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        List<RecruitmentGetResponse> allRecruitments = regularRecruitmentService.getAllRecruitments(pageable);
+        return ResponseEntity.ok().body(allRecruitments);
     }
 ```
 
