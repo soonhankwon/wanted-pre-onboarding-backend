@@ -102,6 +102,8 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
 - companyId 로 company 테이블 DB 조회 & 객체를 가져옵니다.
 - dto 와 company(FK)로 recruitment(채용공고) 객체를 생성 및 DB에 저장하여 채용공고를 등록합니다.
 
+---
+
 ### 채용공고 수정
 - Pathvariable로 recruitmentId, companyId를 사용하도록 했습니다.
   * 채용공고를 수정하려면 해당 회사의 채용공고이어야 때문에 검증이 필요한 부분이 있기 때문입니다.
@@ -125,6 +127,8 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
 </div>
 </details>
 
+---
+
 ### 채용공고 삭제
 - Pathvariable로 recruitmentId, companyId를 사용하도록 했습니다.
   * 채용공고를 삭제하려면 해당 회사의 채용공고이어야 때문에 검증이 필요한 부분이 있기 때문입니다.
@@ -145,6 +149,8 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
 </div>
 </details>
 
+---
+
 ### 채용공고 목록 조회
 - 조회할 데이터량이 많고 이에따른 Latency가 클것으로 예상되는 API 이기 때문에 페이지네이션을 적용했습니다.
 - Pageable 을 사용하며 ex)http://localhost:8080/page=0&size=10&sort=id,DESC 식으로 사용하며 size, sort 생략시 size10, sort는 id, DESC 기본값 입니다.
@@ -164,6 +170,8 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
 
 </div>
 </details>
+
+---
 
 ### 채용공고 키워드 검색
 - RequestParam 으로 keyword (ex)/search?keyword="원티드") 를 사용합니다.
@@ -206,6 +214,8 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
 </div>
 </details>
 
+---
+
 ### 채용상세 페이지 조회
 - Pathvariable로 recruitmentId를 사용하도록 했습니다.
 <details>
@@ -246,6 +256,8 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
 
 </div>
 </details>
+
+---
 
 ### 채용공고 지원
 - Pathvariable로 recruitmentId를 사용하도록 했습니다.
