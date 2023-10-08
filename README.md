@@ -1,10 +1,20 @@
-## 프로젝트 소개
+<!-- Table of Contents -->
+# :notebook_with_decorative_cover: Table of Contents
 
+- [프로젝트 소개](#star2-프로젝트-소개)
+  * [핵심기능](#dart-핵심기능)
+  * [Tech Stack](#space_invader-tech-stack)
+  * [DB 테이블 정의서](#book-DB-테이블-정의서)
+- [Contact](#handshake-contact)
+
+<!-- About the Project -->
+## :star2: 프로젝트 소개
 ---
   
 - 본 서비스는 기업의 채용을 위한 웹 서비스 백엔드 API 입니다.
 
-## 핵심 기능
+<!-- Features -->
+### :dart: 핵심기능
 
 ---
 - 채용공고 등록
@@ -16,7 +26,7 @@
 - 채용공고 지원
 ---
 
-## TECK STACK
+### :space_invader: Tech Stack
 
 ---
 
@@ -30,7 +40,7 @@
 
 ---
 
-## DB 테이블 정의서
+### :book DB 테이블 정의서
 
 ---
 
