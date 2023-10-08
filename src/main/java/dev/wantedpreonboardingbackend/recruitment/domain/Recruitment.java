@@ -38,7 +38,7 @@ public class Recruitment {
     private Company company;
 
     @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
-    protected final List<UserRecruitment> userRecruitments = new ArrayList<>();
+    private final List<UserRecruitment> userRecruitments = new ArrayList<>();
 
     private String requiredTech;
 
@@ -56,6 +56,10 @@ public class Recruitment {
 
     public Company getCompany() {
         return this.company;
+    }
+
+    public List<UserRecruitment> getUserRecruitments() {
+        return this.userRecruitments;
     }
 
     public void update(RecruitmentUpdateRequest dto) {
