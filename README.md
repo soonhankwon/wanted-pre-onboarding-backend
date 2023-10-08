@@ -80,3 +80,50 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
 ## :construction_worker: API 구현과정
 
 ### 채용공고 등록
+- JWT or Session을 사용하지 않는 경우임으로 Pathvariable로 companyId를 사용하도록 했습니다.
+- RequestBody에 채용공고 등록요청 DTO를 파라미터로 받도록 구현했습니다.
+<details>
+<summary><strong> registerRecruitment - Controller</strong></summary>
+<div markdown="1">       
+
+```java
+@Override
+    @Transactional
+    public void registerRecruitment(Long companyId, RecruitmentRegisterRequest dto) {
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(() -> new ApiException(CustomErrorCode.COMPANY_NOT_FOUND_INVALID_ID));
+        Recruitment recruitment = new Recruitment(dto, company);
+        recruitmentRepository.save(recruitment);
+    }
+```
+
+</div>
+</details>
+
+- companyId 로 company 테이블 DB 조회 & 객체를 가져옵니다.
+- dto 와 company(FK)로 recruitment(채용공고) 객체를 생성 및 DB에 저장하여 채용공고를 등록합니다.
+
+### 채용공고 수정
+- Pathvariable로 recruitmentId, companyId를 사용하도록 했습니다.
+  * 채용공고를 수정하려면 해당 회사의 채용공고이어야 때문에 검증이 필요한 부분이 있기 때문입니다.
+  * 해당 부분도 역시 JWT or Session을 사용한다면 companyId는 생략할 수 있는 부분입니다.
+- RequestBody에 채용공고 수정요청 DTO를 파라미터로 받도록 구현했습니다.
+<details>
+<summary><strong> registerRecruitment - Controller</strong></summary>
+<div markdown="1">       
+
+```java
+@Override
+    @Transactional
+    public void updateRecruitment(Long recruitmentId, Long companyId, RecruitmentUpdateRequest dto) {
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(() -> new ApiException(CustomErrorCode.COMPANY_NOT_FOUND_INVALID_ID));
+        Recruitment recruitment = recruitmentRepository.findByIdAndCompany(recruitmentId, company)
+                .orElseThrow(() -> new ApiException(CustomErrorCode.RECRUITMENT_NOT_MATCHES_COMPANY_ID));
+
+        recruitment.update(dto);
+    }
+```
+
+</div>
+</details>
