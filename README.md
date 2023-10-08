@@ -283,7 +283,7 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
 - Status Enum 클래스를 통해 지원여부 상태를 구분합니다.
 - 이미 지원한 상태라면 지원하지 못하도록 예외처리가 적용되어 있습니다.
 <details>
-<summary><strong> applyRecruitment - controller</strong></summary>
+<summary><strong> apply - recruitment(domain)</strong></summary>
 <div markdown="1">       
 
 ```java
