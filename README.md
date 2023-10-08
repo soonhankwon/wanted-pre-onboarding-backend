@@ -146,7 +146,7 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
 </details>
 
 ### 채용공고 목록 조회
-- 조회할 데이터량이 많고 이에따른 Latency가 클것으로 예상되는 API이기 때문에 페이지네이션을 적용했습니다.
+- 조회할 데이터량이 많고 이에따른 Latency가 클것으로 예상되는 API 이기 때문에 페이지네이션을 적용했습니다.
 - Pageable 을 사용하며 ex)http://localhost:8080/page=0&size=10&sort=id,DESC 식으로 사용하며 size, sort 생략시 size10, sort는 id, DESC 기본값 입니다.
 <details>
 <summary><strong> getRecruitments - Controller</strong></summary>
@@ -164,3 +164,87 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
 
 </div>
 </details>
+
+### 채용공고 키워드 검색
+- RequestParam 으로 keyword (ex)/search?keyword="원티드") 를 사용합니다.
+<details>
+<summary><strong> searchRecruitments - Controller</strong></summary>
+<div markdown="1">       
+
+```java
+@GetMapping("/search")
+    @Operation(summary = "채용공고 키워드 검색 API")
+    public ResponseEntity<List<RecruitmentGetResponse>> searchRecruitments(@RequestParam String keyword) {
+        List<RecruitmentGetResponse> searchRecruitments = regularRecruitmentService.searchRecruitments(keyword);
+        return ResponseEntity.ok().body(searchRecruitments);
+    }
+```
+
+</div>
+</details>
+
+- 처음에 Jpa Criteria 로 구현했다가 보다 가독성이 좋고 활용도가 높은 Querydsl 로 수정 및 개선한 API 입니다.
+- LIKE 구문을 사용해서 키워드에 매칭되는 채용공고를 검색하며 Querydsl 의 contains(%LIKE%)를 활용해서 구현했습니다.
+- 현재는 요구사항 예시에 맞는 컬럼에만 LIKE 구문이 적용되어있습니다.
+<details>
+<summary><strong> findRecruitmentsByKeyword - Querydsl</strong></summary>
+<div markdown="1">       
+
+```java
+@Override
+    public List<Recruitment> findRecruitmentsByKeyword(String keyword) {
+        return queryFactory.select(recruitment)
+                .from(recruitment)
+                .join(company).on(recruitment.company.eq(company))
+                .where(recruitment.requiredTech.contains(keyword)
+                        .or(recruitment.position.contains(keyword))
+                        .or(company.name.contains(keyword)))
+                .fetch();
+    }
+```
+
+</div>
+</details>
+
+### 채용상세 페이지 조회
+- Pathvariable로 recruitmentId를 사용하도록 했습니다.
+<details>
+<summary><strong> getRecruitmentDetail - controller</strong></summary>
+<div markdown="1">       
+
+```java
+@GetMapping("/{recruitmentId}")
+    @Operation(summary = "채용공고 상세페이지 조회 API")
+    public ResponseEntity<RecruitmentDetailGetResponse> getRecruitmentDetail(@PathVariable Long recruitmentId) {
+        RecruitmentDetailGetResponse detailResponse = regularRecruitmentService.getRecruitmentDetail(recruitmentId);
+        return ResponseEntity.ok().body(detailResponse);
+    }
+```
+
+</div>
+</details>
+
+- 응답데이터에 해당 회사의 다른 채용공고 id들을 추가적으로 포함하기 위해 Querydsl을 사용했습니다.
+- 해당 채용공고의 company fk를 사용해서 company 테이블과 join 그리고 해당 채용공고의 회사와 같은 채용공고 id들을 가져옵니다.
+  * 현재 채용공고의 id는 제외하고 가져옵니다.
+<details>
+<summary><strong> findRelatedRecruitmentsIdsByCompany - Querydsl</strong></summary>
+<div markdown="1">       
+
+```java
+@Override
+    public List<Long> findRelatedRecruitmentsIdsByCompany(Recruitment recruitmentNotice) {
+        return queryFactory.select(recruitment.id)
+                .from(recruitment)
+                .join(company).on(recruitment.company.eq(company))
+                .where(
+                        recruitment.company.eq(recruitmentNotice.getCompany())
+                                .and(recruitment.id.ne(recruitmentNotice.getId())))
+                .fetch();
+    }
+```
+
+</div>
+</details>
+
+### 채용공고 지원
