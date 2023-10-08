@@ -5,6 +5,7 @@
   * [핵심기능](#dart-핵심기능)
   * [Tech Stack](#space_invader-tech-stack)
   * [DB 테이블 정의서](#book-DB-테이블-정의서)
+  * [API 명세서](#computer-API-명세서)
 - [Contact](#handshake-contact)
 
 <!-- About the Project -->
@@ -40,7 +41,7 @@
 
 ---
 
-### :book DB 테이블 정의서
+### :book: DB 테이블 정의서
 
 ---
 
@@ -54,7 +55,7 @@
 </div>
 </details>
 
-## API
+### :computer: API 명세서
 
 ---
 
