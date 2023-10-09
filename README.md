@@ -235,7 +235,7 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
 </details>
 
 - 응답데이터에 해당 회사의 다른 채용공고 id들을 추가적으로 포함하기 위해 Querydsl을 사용했습니다.
-- 해당 채용공고의 company fk를 사용해서 company 테이블과 join 그리고 해당 채용공고의 회사와 같은 채용공고 id들을 가져옵니다.
+- 해당 채용공고의 company fk(company_id) 와 값이 같은 채용공고 id들을 가져옵니다.
   * 현재 채용공고의 id는 제외하고 가져옵니다.
 <details>
 <summary><strong> findRelatedRecruitmentsIdsByCompany - Querydsl</strong></summary>
@@ -246,9 +246,7 @@ API 테스트 검증 및 자동화된 테스트를 위해 /test 경로에 **테�
     public List<Long> findRelatedRecruitmentsIdsByCompany(Recruitment recruitmentNotice) {
         return queryFactory.select(recruitment.id)
                 .from(recruitment)
-                .join(company).on(recruitment.company.eq(company))
-                .where(
-                        recruitment.company.eq(recruitmentNotice.getCompany())
+                .where(recruitment.company.eq(recruitmentNotice.getCompany())
                                 .and(recruitment.id.ne(recruitmentNotice.getId())))
                 .fetch();
     }
