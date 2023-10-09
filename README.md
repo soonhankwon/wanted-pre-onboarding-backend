@@ -4,6 +4,7 @@
 - [프로젝트 소개](#star2-프로젝트-소개)
   * [핵심기능](#dart-핵심기능)
   * [Tech Stack](#space_invader-tech-stack)
+  * [환경변수](#file_folder-환경변수)
 - [요구사항 분석 및 구현과정](#hugs-요구사항-분석-및-구현과정)
   * [DB 테이블 정의서](#book-DB-테이블-정의서)
   * [API 명세서](#computer-API-명세서)
@@ -34,6 +35,25 @@
 - JUnit5
 - Swagger 3.0.0
 - MySQL 8.0.31
+
+### :file_folder: 환경변수
+<details>
+<summary><strong> application.properties</strong></summary>
+<div markdown="1">       
+
+```java
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/{}
+spring.datasource.username={}
+spring.datasource.password={}
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.show_sql = true
+spring.jpa.hibernate.ddl-auto=update
+```
+
+</div>
+</details>
+
 
 ## :hugs: 요구사항 분석 및 구현과정
 
