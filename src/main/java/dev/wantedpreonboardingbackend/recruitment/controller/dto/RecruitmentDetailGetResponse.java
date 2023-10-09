@@ -23,6 +23,6 @@ public record RecruitmentDetailGetResponse(
         @Schema(description = "채용내용", example = "원티드랩에서 백엔드 주니어 개발자를 채용합니다. 자격요건은..")
         String description,
         @Schema(description = "회사가올린다른채용공고", example = "[3, 4, ..]")
-        List<Long> relatedRecruitmentsByCompany
+        List<Long> relatedRecruitmentsIdsByCompany
 ) {
 }

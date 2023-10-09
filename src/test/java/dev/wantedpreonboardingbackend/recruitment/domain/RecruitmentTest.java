@@ -115,7 +115,7 @@ class RecruitmentTest {
         RecruitmentDetailGetResponse recruitmentDetailGetResponse = recruitment.ofDetailResponse(List.of(3L, 4L, 5L));
 
         assertThat(recruitmentDetailGetResponse.recruitmentId()).isEqualTo(recruitment.getId());
-        assertThat(recruitmentDetailGetResponse.relatedRecruitmentsByCompany()).isEqualTo(List.of(3L, 4L, 5L));
+        assertThat(recruitmentDetailGetResponse.relatedRecruitmentsIdsByCompany()).isEqualTo(List.of(3L, 4L, 5L));
     }
 
     @Test
