@@ -48,7 +48,9 @@ spring.datasource.username={}
 spring.datasource.password={}
 spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.properties.hibernate.show_sql = true
-spring.jpa.hibernate.ddl-auto=update
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.defer-datasource-initialization=true
+spring.sql.init.mode=always
 ```
 
 </div>
